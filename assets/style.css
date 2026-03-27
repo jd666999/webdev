@@ -54,4 +54,30 @@ body{
     footer{
         text-align: right;
     }
+
+}
+
+
+form.new-item{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 0 5rem;
+    place-self: start;
+    padding: 1 rem;
+    background: #ddd;
+    border: 0.5px solid black;
+    p.error{
+        margin: 0;
+        grid-column: span 2;
+        color: red;
+        text-align: right;
+        font-size:0.9em;
+    }
+
+
+}
+
+button,
+input{
+    font-size: inherit;
 }
