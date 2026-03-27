@@ -1,5 +1,5 @@
 import { homeController } from "./controllers/home.js";
-import { itemsController } from "./controllers/items.js";
+import { addItemController, itemsController } from "./controllers/items.js";
 import { notFoundContoller } from "./controllers/notFound.js";
 import { staticController } from "./controllers/static.js";
 
@@ -19,9 +19,16 @@ export default function server (request){
     
     }
 
-    if(url.pathname == "/items"){
+    if(url.pathname == "/items" && request.method == "GET"){
         return itemsController({request});
     }
+
+    if(url.pathname == "/items" && request.method == "POST"){
+        return addItemController({request});
+    }
+
+
+    
 
     return notFoundContoller({request});
 
