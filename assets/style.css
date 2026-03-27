@@ -1,3 +1,57 @@
 body{
-    background: yellow;
+   
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100dvh;
+    font-family: system-ui;
+
+
+    header,
+    main,
+    foooter{
+
+        padding-inline: 1rem;
+    }
+
+
+
+
+    header,footer{
+        background:linear-gradient(#222,#444);
+        color: #eeee;
+        a{
+            color: inherit;
+        }
+
+    }
+
+
+    header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-block: 0.5rem;
+
+        h1{
+            font-weight: 300;
+            margin: 0;
+        }
+        nav{
+            display: flex;
+            gap: 0.5rem;
+            a{
+                text-decoration: none;
+                background: hsla(0,0%,100%, 0.1);
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+       
+    }
+
+    footer{
+        text-align: right;
+    }
 }

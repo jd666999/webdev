@@ -1,7 +1,8 @@
-export default function render(content, status = 200) {
+export default function render(viewFn, status = 200) {
 
+
+    const content = viewFn();
     const headers = new Headers();
-    // const status = 404;
     headers.set("Content-Type", "text/html");
 
     const html = `
@@ -20,11 +21,15 @@ export default function render(content, status = 200) {
                 <h1> My web application </h1>
                 <nav>
                     <a href="/"> Home </a>
-                    <a href="/about"> About </a>
-                    <a href="/contact"> Contact </a>
+                     <a href="/about"> About </a>
                 <nav>
             </header>
+        <main>
          ${content}
+         </main>
+         <footer>
+            <p> &copy; 2027 My web application </p>
+         </footer>
         </body>
         </html>
 
