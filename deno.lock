@@ -95,6 +95,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@db/sqlite@0.13",
+      "jsr:@std/encoding@^1.0.10",
       "jsr:@std/html@^1.0.5",
       "jsr:@std/http@^1.0.25"
     ]
