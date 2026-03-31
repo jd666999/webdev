@@ -1,7 +1,9 @@
 import { homeController } from "./controllers/home.js";
 import { addItemController, itemsController } from "./controllers/items.js";
 import { notFoundContoller } from "./controllers/notFound.js";
+import { addSessionController, loginFormController } from "./controllers/sessions.js";
 import { staticController } from "./controllers/static.js";
+import { addUserController, registrationFormController } from "./controllers/users.js";
 
 export default function server (request){
 
@@ -11,7 +13,6 @@ export default function server (request){
     if(url.pathname.startsWith("/assets/")) {
     return staticController({request});
     }
-    
     
 
     if (url.pathname == "/") {
@@ -27,8 +28,21 @@ export default function server (request){
         return addItemController({request});
     }
 
+    if(url.pathname == "/login" && request.method == "GET"){
+        return loginFormController({request});
+    }
 
-    
+    if(url.pathname == "/register" && request.method == "GET"){
+        return registrationFormController({request});
+    }
+    if(url.pathname == "/login" && request.method == "POST"){
+        return addSessionController({request});
+    }
+
+    if(url.pathname == "/register" && request.method == "POST"){
+        return addUserController({request});
+    }
+
 
     return notFoundContoller({request});
 

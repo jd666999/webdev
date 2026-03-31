@@ -105,3 +105,27 @@ aside#flash{
         translate: none;
     }
 }
+
+form.auth {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
+    place-self: center;
+    background: linear-gradient(#222,#555);
+    color: #eee;
+    padding: 2rem;
+    label{
+        text-align: right;
+    }
+    button {
+        grid-column: 2; 
+        place-self:end;
+    }
+}
+
+
+.center {
+    text-align: center;
+
+}
+

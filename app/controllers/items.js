@@ -21,6 +21,6 @@ export async function addItemController({request}){
     createItem(newItem);
     const headers = new Headers();
     setFlash(headers, ` added '${newItem}' to the list`);
-    headers.set("Location", "/items");
+    headers.set("location", "/items");
     return new Response(null, { headers, status: 303 });
 }

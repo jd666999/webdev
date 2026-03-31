@@ -20,19 +20,20 @@ export default function render(viewFn, data, request ,status = 200) {
         <!DOCTYPE html>
         <html lang="en">
 
-        </head>
+        <head>
          <title> MY web application </title>
          <meta charset="UTF-8">
          <link rel="icon" href="/assets/icon.svg">
          <link rel="stylesheet" href="/assets/style.css">
         </head>
         
-         </body>
+         <body>
             <header>
                 <h1> My web application </h1>
                 <nav>
                     <a href="/"> Home </a>
                     <a href="/items"> items </a>
+                    <a href="/login"> Sign in </a>
                 <nav>
             </header>
         <main>
