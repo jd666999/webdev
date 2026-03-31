@@ -1,4 +1,5 @@
-export function loginFormView(){
+export function loginFormView({errors}){
+    console.log(errors);
     return `
     <section aria-labelledby="login-heading" class="center"> 
        <h2 id="login-heading">sign in to your account </h2>
@@ -14,7 +15,8 @@ export function loginFormView(){
     `
 }
 
-export function registrationFormView(){
+export function registrationFormView({errors}){
+    console.log(errors);
     return `
     <section aria-labelledby="register-heading" class="center"> 
        <h2 id="register-heading">create an account</h2>

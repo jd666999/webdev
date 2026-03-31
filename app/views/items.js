@@ -1,9 +1,9 @@
 import { escape } from "@std/html";
 
-export function itemsView({items, error}){
+export function itemsView({items, error = {}}){
 
     const listItems = items.map(item => `<li>${escape(item.label)}</li>`).join("\n");
-    const errorMessage = error ? `<p class="error">${escape(error)}</p>` :  "" ;
+    const errorMessage = error.message ? `<p class="error">${escape(error.message)}</p>` :  "" ;
 
     return `
         <section aria-label="items section">
