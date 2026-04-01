@@ -21,6 +21,8 @@ export function validateField(name,value, validators){
 export function validateSchema(formData,schema){
     const entries = Object.entries(schema);
 
+    const validated ={};
+
     let isValid = true;
 
 
@@ -28,13 +30,17 @@ export function validateSchema(formData,schema){
     const errorEntries = entries.map(([key, {validators,displayName}]) => {
         const value = formData.get(key);
         const message = validateField(displayName || key,value, validators) || "";
-        if(message) isValid = false;
+        if(message) {
+            isValid = false;
+        } else {
+            validated[key] = value;
+        };
         return [key,{value,message, error: !!message }];
 
     });
 
     const errors = Object.fromEntries(errorEntries);
-    return {isValid, errors};
+    return {isValid, errors, validated};
 
 
 }
