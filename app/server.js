@@ -4,49 +4,31 @@ import { notFoundContoller } from "./controllers/notFound.js";
 import { addSessionController, deleteSessionController, loginFormController } from "./controllers/sessions.js";
 import { staticController } from "./controllers/static.js";
 import { addUserController, registrationFormController } from "./controllers/users.js";
+import applicationRouter from "./router.js";
+
+
+const app = new applicationRouter();
+
+
+app.get("/assets/*",staticController);
+app.get("/", homeController);
+app.get("/items", itemsController);
+app.post("/items", addItemController);
+app.get("/register", registrationFormController);
+app.post("/register", addUserController);
+app.get("/login", loginFormController);
+app.post("/login", addSessionController);
+app.post("/logout", deleteSessionController);
+
+app.get("*", notFoundContoller);
+app.post("*", notFoundContoller);
+
 
 export default function server (request){
 
     const url = new URL(request.url);
     console.log(` \n${request.method}${url.pathname}${url.search}`);
-
-    if(url.pathname.startsWith("/assets/")) {
-    return staticController({request});
-    }
-    
-
-    if (url.pathname == "/") {
-        return homeController({request});
-    
-    }
-
-    if(url.pathname == "/items" && request.method == "GET"){
-        return itemsController({request});
-    }
-
-    if(url.pathname == "/items" && request.method == "POST"){
-        return addItemController({request});
-    }
-
-    if(url.pathname == "/login" && request.method == "GET"){
-        return loginFormController({request});
-    }
-
-    if(url.pathname == "/register" && request.method == "GET"){
-        return registrationFormController({request});
-    }
-    if(url.pathname == "/login" && request.method == "POST"){
-        return addSessionController({request});
-    }
-
-    if(url.pathname == "/register" && request.method == "POST"){
-        return addUserController({request});
-    }
-    if(url.pathname == "/logout" && request.method == "POST"){
-        return deleteSessionController({request});
-    }
-
-    return notFoundContoller({request});
+    return app.handle({request});
 
 
     }
