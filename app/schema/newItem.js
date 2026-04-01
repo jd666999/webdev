@@ -1,4 +1,4 @@
-import { minLength, required } from "../validation.js";
+import { required } from "../validation.js";
 
 export const newItemSchema = {
     "new-item" : {

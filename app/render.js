@@ -2,8 +2,8 @@ import { escape } from "@std/html/entities";
 import { getFlash } from "./flash.js";
 
 
-export default function render(viewFn, data, ctx ,status = 200) {
-    const {request, session , headers} = ctx;
+export default function render(viewFn, data, ctx ) {
+    const {request, session , headers, status =200} = ctx;
     const content = viewFn(data);
     const footerMessage = session 
        ? `logged in as '${session.username}'`: "";
