@@ -1,12 +1,19 @@
 
+import { currentSession } from "../auth.js";
 import { createItem, getItems } from "../models/items.js";
 import redirect from "../redirect.js";
 import render from "../render.js";
 import { newItemSchema } from "../schema/newItem.js";
-import { minLength, required, validateField, validateSchema } from "../validation.js";
+import { validateSchema } from "../validation.js";
 import { itemsView } from "../views/items.js";
 
 export function itemsController({ request }){
+
+    const session = currentSession(request.headers);
+    if(!session) {
+        const headers = new Headers();
+        return redirect(headers, "/login", "sign in to gain access");
+    }
     const items = getItems();
     return render(itemsView, { items }, request);
 }

@@ -1,5 +1,5 @@
-import { setCookie } from "@std/http/cookie";
-import { createSession } from "./models/session.js";
+import { deleteCookie, getCookies, setCookie } from "@std/http/cookie";
+import { createSession, deleteSession, getSession } from "./models/session.js";
 
 export function login(headers,username){
     //create session record
@@ -11,4 +11,19 @@ export function login(headers,username){
         value: sessionId,
         path: "/"
     })
+}
+
+
+export function currentSession(requestHeaders){
+    const {sessionId} = getCookies(requestHeaders);
+    return sessionId && getSession(sessionId);
+
+}
+
+
+export function logout(headers,sessionId){
+
+    deleteSession(sessionId);
+    deleteCookie(headers,"sessionId", {path: "/"})
+
 }

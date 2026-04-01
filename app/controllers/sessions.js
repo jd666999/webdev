@@ -1,3 +1,5 @@
+import { currentSession, login, logout } from "../auth.js";
+import { checkCredentials } from "../models/users.js";
 import redirect from "../redirect.js";
 import render from "../render.js";
 import { userSchema } from "../schema/user.js";
@@ -10,29 +12,32 @@ export function loginFormController({request}){
 }
 
 export async function addSessionController({request}){
-
         const formData = await request.formData();
-        const validation = validateSchema(formData, userSchema);
-        if(!validation.isValid){
-            return render(loginFormView,validation,request, 400);
+        const {isValid, errors, validated} = validateSchema(formData, userSchema);
+        if(!isValid){
+            return render(loginFormView,{errors},request, 400);
     
         }
-        const username = formData.get("username");
-        const _password = formData.get("password");
     
         // validate the incoming data 
     
-        const validCredentials = true;
+        const validCredentials = await checkCredentials(validated);
     
         const headers = new Headers();
-    
-    
-        if(validCredentials){
-        // create session record
-        console.log("session created for :", username);
-        return redirect(headers, "/",`logged in as '${username} created'`)
-    
+        if(!validCredentials){
+            return redirect(headers, "/login", "invalid credentials")
         }
 
+        login(headers,validated.username);
+             return redirect(headers, "/",`logged in as '${validated.username} '`)
+
+}
+
+export function deleteSessionController({request}){
+
+    const session = currentSession(request.headers);
+    const headers = new Headers();
+    if(session) logout(headers,session.id);
+    return redirect(headers, "/", "logged out");
 
 }

@@ -20,6 +20,20 @@ export async function createUser({username, password}){
         VALUES (:username, :hashedPassword)
         `).run({username, hashedPassword})
 }
+function getUser(username){
+    return db.prepare("SELECT * FROM users WHERE username=:username").get({username});
+
+}
+
+export async function checkCredentials({username,password}){
+
+    const user = getUser(username);
+    if(!user) return false;
+    const  hashed = await hashPassword(password);
+    return user.hashedPassword == hashed;
+
+
+}
 
 
 async function hashPassword(password){

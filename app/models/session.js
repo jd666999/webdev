@@ -9,3 +9,14 @@ export function createSession(username){
         return sessionId;
 
 }
+
+export function getSession(sessionId){
+    return db.prepare(`
+    SELECT * FROM sessions WHERE id=:sessionId
+    `).get({sessionId});
+}
+
+export function deleteSession(sessionId){
+    db.prepare("DELETE FROM sessions WHERE id=:sessionId").run({sessionId});
+
+}

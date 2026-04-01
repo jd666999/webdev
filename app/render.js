@@ -1,10 +1,24 @@
 import { escape } from "@std/html/entities";
 import { getFlash } from "./flash.js";
+import { currentSession } from "./auth.js";
 
 
 export default function render(viewFn, data, request ,status = 200) {
     const content = viewFn(data);
     const headers = new Headers();
+    
+    const session =currentSession(request.headers);
+    const footerMessage = session 
+       ? `logged in as '${session.username}'`: "";
+    const links = `
+        ${ session 
+            ? `<a href="/items"> items </a>
+               <form method="POST" action="/logout"><button>sign out</button></form>
+            
+            `
+            : `<a href="/login"> Sign in </a>`
+        }
+    `
 
     const flash = getFlash(request.headers, headers);
     const flashMessage = flash ? `
@@ -32,8 +46,7 @@ export default function render(viewFn, data, request ,status = 200) {
                 <h1> My web application </h1>
                 <nav>
                     <a href="/"> Home </a>
-                    <a href="/items"> items </a>
-                    <a href="/login"> Sign in </a>
+                    ${links}
                 <nav>
             </header>
         <main>
@@ -41,6 +54,7 @@ export default function render(viewFn, data, request ,status = 200) {
          ${content}
          </main>
          <footer>
+            <p>${footerMessage}</p>
             <p> &copy; 2027 My web application </p>
          </footer>
         </body>
