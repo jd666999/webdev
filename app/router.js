@@ -2,6 +2,7 @@ export default class applicationRouter{
 
     constructor(){
     this.routes = [];
+    this.middleware =[];
     }
 
     register(method, pattern, handler){
@@ -11,6 +12,7 @@ export default class applicationRouter{
         this.routes.push({method, pattern, handler});
 
     }
+    
 
     get(...args){
         this.register("GET", ...args);
@@ -20,14 +22,27 @@ export default class applicationRouter{
         this.register("POST", ...args);
     }
 
-    handle({request}){
-       const route = this.routes.find(({method, pattern}) => {
+    use(middlewareFunction){
+        this.middleware.push(middlewareFunction);
+    }
 
+    chain(ctx,middleware,handler){
+       if(middleware.length ==0) return handler(ctx);
+       const [nextMWFunction, ...remainingMWfunctions]= middleware;
+       const next =(ctx) =>{return this.chain(ctx,remainingMWfunctions,handler)};
+       return nextMWFunction({...ctx}, next);
+        }
+
+    
+
+    handle(ctx){
+       const {request} =ctx;
+       const route = this.routes.find(({method, pattern}) => {
         return request.method == method && pattern.test(request.url);
 
        });
 
-       return route.handler({request});
+       return this.chain(ctx, this.middleware, route.handler);
 
     }
 

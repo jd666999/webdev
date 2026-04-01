@@ -1,13 +1,10 @@
 import { escape } from "@std/html/entities";
 import { getFlash } from "./flash.js";
-import { currentSession } from "./auth.js";
 
 
-export default function render(viewFn, data, request ,status = 200) {
+export default function render(viewFn, data, ctx ,status = 200) {
+    const {request, session , headers} = ctx;
     const content = viewFn(data);
-    const headers = new Headers();
-    
-    const session =currentSession(request.headers);
     const footerMessage = session 
        ? `logged in as '${session.username}'`: "";
     const links = `

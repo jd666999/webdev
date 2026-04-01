@@ -4,10 +4,17 @@ import { notFoundContoller } from "./controllers/notFound.js";
 import { addSessionController, deleteSessionController, loginFormController } from "./controllers/sessions.js";
 import { staticController } from "./controllers/static.js";
 import { addUserController, registrationFormController } from "./controllers/users.js";
+import { withSession } from "./middleware/auth.js";
+import { withHeaders } from "./middleware/headers.js";
+import { withlogs } from "./middleware/logging.js";
 import applicationRouter from "./router.js";
 
 
 const app = new applicationRouter();
+
+app.use(withlogs);
+app.use(withHeaders);
+app.use(withSession);
 
 
 app.get("/assets/*",staticController);
@@ -25,9 +32,6 @@ app.post("*", notFoundContoller);
 
 
 export default function server (request){
-
-    const url = new URL(request.url);
-    console.log(` \n${request.method}${url.pathname}${url.search}`);
     return app.handle({request});
 
 
